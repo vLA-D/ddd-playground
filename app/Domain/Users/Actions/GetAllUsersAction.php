@@ -3,6 +3,7 @@
 namespace App\Domain\Users\Actions;
 
 use App\Domain\Users\Models\User;
+use App\Domain\Users\Queries\UserQuery;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -11,11 +12,22 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class GetAllUsersAction
 {
+    private $query;
+
+    /**
+     * GetAllUsersAction constructor.
+     * @param UserQuery $query
+     */
+    public function __construct(UserQuery $query)
+    {
+        $this->query = $query;
+    }
+
     /**
      * @return User[]|Collection
      */
     public function execute()
     {
-        return User::all();
+        return $this->query->get();
     }
 }

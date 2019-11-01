@@ -2,7 +2,9 @@
 
 namespace App\Domain\Users\Actions;
 
-use App\Domain\Users\Models\User;
+use App\Domain\Users\Queries\UserQuery;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class GetUserByIdAction
@@ -10,12 +12,23 @@ use App\Domain\Users\Models\User;
  */
 class GetUserByIdAction
 {
+    private $query;
+
+    /**
+     * GetUserByIdAction constructor.
+     * @param UserQuery $query
+     */
+    public function __construct(UserQuery $query)
+    {
+        $this->query = $query;
+    }
+
     /**
      * @param int $id
-     * @return User
+     * @return UserQuery|UserQuery[]|Collection|Model|null
      */
     public function execute(int $id)
     {
-        return User::findOrFail($id);
+        return $this->query->find($id);
     }
 }
